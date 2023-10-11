@@ -1,0 +1,18 @@
+export const MESSGES = {
+  EMAIL_NOT_SEND: 'email not send',
+  EMAIL_ALREADY_EXISTS_MESSAGE: 'email already exists',
+  PHONE_ALREADY_EXISTS_MESSAGE: 'phone already exists',
+  INVALID_LOGIN_CREDENTIALS_MESSAGE: 'invalid login credentials',
+  FORGOT_PASSWORD_SENT: 'forgot password link sent',
+  LINK_EXPIRE: 'Your reset password link has expired',
+  INVALID_CREDENTIALS_MESSAGE: 'invalid credentials',
+  LOGIN_SUCCESSFULLY_MESSAGE: 'login successfully',
+  PASSWORD_RESET_SUCCESSFULLY_MESSAGE: 'password reset successfully',
+  USER_CREATE_MESSAGE: 'user create successfully',
+  USER_NOT_FOUND_MESSAGE: 'user not found',
+  USER_DELETE_MESSAGE: 'user delete successfully',
+  USER_UPDATE_MESSAGE: 'user update successfully',
+  USER_PASSWORD_UPDATED_MESSAGE: 'User password has been updated successfully.',
+  USER_FETCH_SUCCESS_MESSAGE: 'User fetch successfully',
+  USER_LIST_FETCH_SUCCESS_MESSAGE: 'User list fetch successfully',
+}
