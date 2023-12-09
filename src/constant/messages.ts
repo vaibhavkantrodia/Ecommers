@@ -15,4 +15,12 @@ export const MESSGES = {
   USER_PASSWORD_UPDATED_MESSAGE: 'User password has been updated successfully.',
   USER_FETCH_SUCCESS_MESSAGE: 'User fetch successfully',
   USER_LIST_FETCH_SUCCESS_MESSAGE: 'User list fetch successfully',
+  USER_ALREADY_EXISTS_MESSAGE: 'User already exists',
+  CATEGORY_CREATE_MESSAGE: 'category create successfully',
+  FILE_NOT_ALLOWED_MESSAGE: 'File type not allowed',
+  CATEGORY_NOT_FOUND_MESSAGE: 'category not found',
+  CATEGORY_DELETE_MESSAGE: 'category delete successfully',
+  CATEGORY_UPDATE_MESSAGE: 'category update successfully',
+  CATEGORY_FETCH_SUCCESS_MESSAGE: 'category fetch successfully',
+  CATEGORY_LIST_FETCH_SUCCESS_MESSAGE: 'category list fetch successfully',
 }
