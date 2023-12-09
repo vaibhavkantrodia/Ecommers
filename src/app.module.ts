@@ -3,9 +3,10 @@ import { AuthModule } from './api/auth/auth.module';
 import { UserModule } from './api/user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CategoryModule } from './api/category/category.module';
 
 @Module({
-  imports: [AuthModule,UserModule,  
+  imports: [  
     ConfigModule.forRoot({
     envFilePath: '.env',
     isGlobal: true,
@@ -19,6 +20,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       dbName: configService.get('DB_NAME'),
     }),
     inject: [ConfigService],
-  }),],
+  }),
+  AuthModule,
+  UserModule,
+  CategoryModule,
+],
 })
 export class AppModule {}

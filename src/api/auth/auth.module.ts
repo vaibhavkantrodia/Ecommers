@@ -15,11 +15,13 @@ import { EmailService } from 'src/helper/email-helper.service';
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
+        global: true,
         secret: configService.get('JWT_SECRET'),
+        signOptions: { expiresIn: '10d' },
       }),
-    }),
-  MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
-],
+    }),    
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
+  ],
   controllers: [AuthController],
   providers: [AuthService, ErrorHandlerService,JwtService, EmailService],
   exports: [AuthService],
