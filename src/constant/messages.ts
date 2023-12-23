@@ -23,4 +23,11 @@ export const MESSGES = {
   CATEGORY_UPDATE_MESSAGE: 'category update successfully',
   CATEGORY_FETCH_SUCCESS_MESSAGE: 'category fetch successfully',
   CATEGORY_LIST_FETCH_SUCCESS_MESSAGE: 'category list fetch successfully',
+  VENDOR_ALREADY_EXISTS_MESSAGE: 'Vendor already exists',
+  VENDOR_CREATE_MESSAGE: 'Vendor create successfully',
+  VENDOR_LIST_FETCH_SUCCESS_MESSAGE: 'Vendor list fetch successfully',
+  VENDOR_FETCH_SUCCESS_MESSAGE: 'Vendor fetch successfully',
+  VENDOR_UPDATE_MESSAGE: 'Vendor update successfully',
+  VENDOR_NOT_FOUND_MESSAGE: 'Vendor not found',
+  VENDOR_DELETE_MESSAGE: 'Vendor delete successfully',
 }
