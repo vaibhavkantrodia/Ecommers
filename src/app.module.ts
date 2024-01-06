@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CategoryModule } from './api/category/category.module';
 import { VendorModule } from './api/vendor/vendor.module';
+import { CartModule } from './api/cart/cart.module';
+import { ProductModule } from './api/product/product.module';
 
 @Module({
   imports: [  
@@ -26,6 +28,8 @@ import { VendorModule } from './api/vendor/vendor.module';
   UserModule,
   CategoryModule,
   VendorModule,
+  ProductModule,
+  CartModule
 ],
 })
 export class AppModule {}
