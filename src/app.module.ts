@@ -7,6 +7,7 @@ import { CategoryModule } from './api/category/category.module';
 import { VendorModule } from './api/vendor/vendor.module';
 import { CartModule } from './api/cart/cart.module';
 import { ProductModule } from './api/product/product.module';
+import { OrderModule } from './api/order/order.module';
 
 @Module({
   imports: [  
@@ -29,7 +30,8 @@ import { ProductModule } from './api/product/product.module';
   CategoryModule,
   VendorModule,
   ProductModule,
-  CartModule
+  CartModule,
+  OrderModule
 ],
 })
 export class AppModule {}
