@@ -8,6 +8,7 @@ import { AuthController } from './auth.controller';
 import { User, UserSchema } from '../user/schema/user.schema';
 import { ErrorHandlerService } from 'src/utils/error-handler.service';
 import { EmailService } from 'src/helper/email-helper.service';
+import { JwtStrategy } from './strategy/jwt.strategy';
 
 @Module({
   imports: [
@@ -17,13 +18,13 @@ import { EmailService } from 'src/helper/email-helper.service';
       useFactory: (configService: ConfigService) => ({
         global: true,
         secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: '10d' },
+        signOptions: { expiresIn: configService.get('JWT_LIFE_TIME') },
       }),
     }),    
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
   ],
   controllers: [AuthController],
-  providers: [AuthService, ErrorHandlerService,JwtService, EmailService],
+  providers: [AuthService, ErrorHandlerService,JwtStrategy, EmailService],
   exports: [AuthService],
 })
 export class AuthModule { }

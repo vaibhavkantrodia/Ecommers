@@ -1,13 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { VendorService } from './vendor.service';
 import { CreateVendorDto } from './dto/create-vendor.dto';
 import { UpdateVendorDto } from './dto/update-vendor.dto';
 import { CreateVendorResponse, GetVendorByIdResponse, GetVendorListResponse, UpdateVendorResponse } from './dto/vendor-response';
 import { GetVendorListDto } from './dto/get-vendor-list.dto';
 import { ResponseDto } from 'src/utils/response.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from '../auth/guard/role.guard ';
+import { Roles } from '../auth/decorator/roles.decorator';
+import { USER_ROLE } from 'src/enum/role.enum';
 
 @ApiTags('Vendor')
+@ApiBearerAuth()
 @Controller('vendor')
 export class VendorController {
   constructor(private readonly vendorService: VendorService) { }
@@ -18,6 +23,8 @@ export class VendorController {
    * @returns CreateVendorResponse
    */
   @Post('createVendor')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(USER_ROLE.VENDOR)
   async createVendor(@Body() createVendorDto: CreateVendorDto): Promise<CreateVendorResponse> {
     return await this.vendorService.createVendor(createVendorDto);
   }
@@ -48,6 +55,8 @@ export class VendorController {
    * @returns UpdateVendorResponse
    */
   @Patch(':vendorId')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(USER_ROLE.VENDOR)
   async updateVendorByVendorId(@Param('vendorId') vendorId: string, @Body() updateVendorDto: UpdateVendorDto): Promise<UpdateVendorResponse> {
     return await this.vendorService.updateVendorByVendorId(vendorId, updateVendorDto);
   }
