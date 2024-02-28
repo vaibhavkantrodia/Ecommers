@@ -11,8 +11,8 @@ export class Cart {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
     user: string;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
-    product: string;
+    @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Product'}])
+    productId: string[];
 
     @Prop()
     price: number;
