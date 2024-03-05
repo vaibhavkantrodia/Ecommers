@@ -7,7 +7,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './schema/category.schema';
 import { ErrorHandlerService } from 'src/utils/error-handler.service';
 import { ResponseDto } from 'src/utils/response.dto';
-import { MESSGES } from 'src/constant/messages';
+import { MESSAGES } from 'src/constant/messages';
 import { GetCategoryListDto } from './dto/get-category-list.dto';
 
 @Injectable()
@@ -25,7 +25,7 @@ export class CategoryService {
 
       const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
       if (!allowedTypes.includes(file.mimetype)) {
-        throw new HttpException(MESSGES.FILE_NOT_ALLOWED_MESSAGE, HttpStatus.BAD_REQUEST);
+        throw new HttpException(MESSAGES.FILE_NOT_ALLOWED_MESSAGE, HttpStatus.BAD_REQUEST);
       }
       file.originalname = `${name}` + '.' + file.mimetype.split('/')[1];
 
@@ -35,7 +35,7 @@ export class CategoryService {
 
       return {
         statusCode: 200,
-        message:MESSGES.CATEGORY_CREATE_MESSAGE,
+        message:MESSAGES.CATEGORY_CREATE_MESSAGE,
         data: category,
       };
     } catch (error) {
@@ -53,7 +53,7 @@ export class CategoryService {
       const totalCategory = await this.categoryModel.countDocuments();
       return {
         statusCode: 200,
-        message: MESSGES.CATEGORY_LIST_FETCH_SUCCESS_MESSAGE,
+        message: MESSAGES.CATEGORY_LIST_FETCH_SUCCESS_MESSAGE,
         data: {category,totalCount: totalCategory},
       };
     } catch (error) {
@@ -67,7 +67,7 @@ export class CategoryService {
       const category = await this.categoryModel.findById({ _id: categoryId });
       return {
         statusCode: 200,
-        message: MESSGES.CATEGORY_FETCH_SUCCESS_MESSAGE,
+        message: MESSAGES.CATEGORY_FETCH_SUCCESS_MESSAGE,
         data: category,
       };
     } catch (error) {
@@ -81,17 +81,16 @@ export class CategoryService {
       const { name, image } = updateCategoryDto;
       const category = await this.categoryModel.findById({ _id: updateCategoryDto.categoryId });
       if (!category) {
-        throw new HttpException(MESSGES.CATEGORY_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
+        throw new HttpException(MESSAGES.CATEGORY_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
       }
 
       const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
       if (!allowedTypes.includes(file.mimetype)) {
-        throw new HttpException(MESSGES.FILE_NOT_ALLOWED_MESSAGE, HttpStatus.BAD_REQUEST);
+        throw new HttpException(MESSAGES.FILE_NOT_ALLOWED_MESSAGE, HttpStatus.BAD_REQUEST);
       }
       // delete previous image
       if (category.image) {
        const test = await this.s3HelperService.deleteFile({file:category.image}, 'category'); 
-       console.log("🚀 ~ file: category.service.ts:93 ~ CategoryService ~ updateCategory ~ test:", test)
       }
 
         file.originalname = `${name}` + '.' + file.mimetype.split('/')[1];
@@ -103,7 +102,7 @@ export class CategoryService {
       
       return {
         statusCode: 200,
-        message: MESSGES.CATEGORY_UPDATE_MESSAGE,
+        message: MESSAGES.CATEGORY_UPDATE_MESSAGE,
         data: category,
       };
     } catch (error) {
@@ -116,11 +115,11 @@ export class CategoryService {
     try {
       const category = await this.categoryModel.findByIdAndDelete({_id: categoryId});
       if (!category) {
-        throw new HttpException(MESSGES.CATEGORY_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
+        throw new HttpException(MESSAGES.CATEGORY_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
       }
         return {
         statusCode: 200,
-        message: MESSGES.CATEGORY_DELETE_MESSAGE,
+        message: MESSAGES.CATEGORY_DELETE_MESSAGE,
       };
     } catch (error) {
       await this.errorHandlerService.HttpException(error);

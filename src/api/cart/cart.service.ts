@@ -6,7 +6,7 @@ import { Model } from 'mongoose';
 import { ErrorHandlerService } from 'src/utils/error-handler.service';
 import { Product } from '../product/schema/product.schema';
 import { ResponseDto } from 'src/utils/response.dto';
-import { MESSGES } from 'src/constant/messages';
+import { MESSAGES } from 'src/constant/messages';
 
 @Injectable()
 export class CartService {
@@ -23,14 +23,13 @@ export class CartService {
 
       const productDetail = await this.productModel.findById(product);
       if (!productDetail) {
-        throw new HttpException(MESSGES.PRODUCT_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
+        throw new HttpException(MESSAGES.PRODUCT_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
       }
 
       const existsCart = await this.cartModel.findOne({ product });
       if (existsCart) {
-
         if(quantity <= productDetail.quantity){
-          throw new HttpException(MESSGES.OUT_OF_STOCK, HttpStatus.NOT_FOUND);
+          throw new HttpException(MESSAGES.OUT_OF_STOCK, HttpStatus.NOT_FOUND);
         }
         existsCart.quantity += quantity;
         const newPrice = productDetail.price * quantity;
@@ -38,22 +37,23 @@ export class CartService {
         existsCart.save();
         return {
           statusCode: HttpStatus.OK,
-          message: MESSGES.CART_UPDATE_MESSAGE,
+          message: MESSAGES.CART_UPDATE_MESSAGE,
           data: existsCart
         };
-      } 
+      }else{
+        const newPrice = existsCart.price * quantity; 
         const cart = await this.cartModel.create({
-          price: productDetail.price,
+          price: newPrice,
           user,
           product,
           quantity
         });
         return {
           statusCode: HttpStatus.OK,
-          message:MESSGES.CART_CREATE_MESSAGE,
+          message:MESSAGES.CART_CREATE_MESSAGE,
           data: cart
         };
-      
+      }     
     } catch (error) {
       await this.errorHandlerService.HttpException(error);
     }
@@ -66,7 +66,7 @@ export class CartService {
       const cart = await this.cartModel.find({ user }).populate('product').populate('user');
       return {
         statusCode: HttpStatus.OK,
-        message: MESSGES.CART_FETCH_SUCCESS,
+        message: MESSAGES.CART_FETCH_SUCCESS,
         data: cart
       };
     } catch (error) {
@@ -78,11 +78,11 @@ async  removeCart(id: string): Promise<ResponseDto> {
     try {
       const cart = this.cartModel.findByIdAndDelete(id);
       if (!cart) {
-        throw new HttpException(MESSGES.CART_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
+        throw new HttpException(MESSAGES.CART_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
       }
       return {
         statusCode: HttpStatus.OK,
-        message: MESSGES.CART_DELETE_MESSAGE,
+        message: MESSAGES.CART_DELETE_MESSAGE,
       };
     } catch (error) {
       await this.errorHandlerService.HttpException(error);

@@ -5,7 +5,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './schema/product.schema';
 import { ErrorHandlerService } from 'src/utils/error-handler.service';
-import { MESSGES } from 'src/constant/messages';
+import { MESSAGES } from 'src/constant/messages';
 import { S3HelperService } from 'src/helper/s3-helper.service';
 import { GetProductListDto } from './dto/getProductList.dto';
 import {
@@ -21,7 +21,7 @@ export class ProductService {
     @InjectModel(Product.name) private productModel: Model<Product>,
     private errorHandlerService: ErrorHandlerService,
     private s3HelperService: S3HelperService,
-  ) {}
+  ) { }
 
   async createProduct(
     createProductDto: CreateProductDto,
@@ -41,7 +41,7 @@ export class ProductService {
       const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
       if (!allowedTypes.includes(file.mimetype)) {
         throw new HttpException(
-          MESSGES.FILE_NOT_ALLOWED_MESSAGE,
+          MESSAGES.FILE_NOT_ALLOWED_MESSAGE,
           HttpStatus.BAD_REQUEST,
         );
       }
@@ -54,7 +54,7 @@ export class ProductService {
       const createProduct = await this.productModel.create(createProductDto);
       return {
         statusCode: HttpStatus.CREATED,
-        message: MESSGES.PRODUCT_CREATE_MESSAGE,
+        message: MESSAGES.PRODUCT_CREATE_MESSAGE,
         data: createProduct,
       };
     } catch (error) {
@@ -116,7 +116,7 @@ export class ProductService {
 
       return {
         statusCode: HttpStatus.OK,
-        message: MESSGES.PRODUCT_LIST_FETCH_SUCCESS,
+        message: MESSAGES.PRODUCT_LIST_FETCH_SUCCESS,
         totalCount:
           productList.count.length == 0 ? 0 : productList.count[0].totalCount,
         data: productList.data,
@@ -129,15 +129,11 @@ export class ProductService {
   async getProductDetailById(
     productId: string,
   ): Promise<GetProductDetailResponse> {
-    console.log(
-      '🚀 ~ file: product.service.ts:108 ~ ProductService ~ getProductDetailById ~ productId:',
-      productId,
-    );
     try {
       const productList = await this.productModel.findOne({ _id: productId });
       return {
         statusCode: HttpStatus.OK,
-        message: MESSGES.PRODUCT_FETCH_SUCCESS,
+        message: MESSAGES.PRODUCT_FETCH_SUCCESS,
         data: productList,
       };
     } catch (error) {
@@ -151,10 +147,6 @@ export class ProductService {
     updateProductDto: UpdateProductDto,
     file,
   ): Promise<CreateProductResponse> {
-    console.log(
-      '🚀 ~ file: product.service.ts:124 ~ ProductService ~ updateProduct ~ file:',
-      file,
-    );
     try {
       const product = await this.productModel.findById(productId);
 
@@ -166,14 +158,12 @@ export class ProductService {
 
       if (!allowedTypes.includes(file.mimetype)) {
         throw new HttpException(
-          MESSGES.FILE_NOT_ALLOWED_MESSAGE,
+          MESSAGES.FILE_NOT_ALLOWED_MESSAGE,
           HttpStatus.BAD_REQUEST,
         );
       }
 
-      file.originalname = `${updateProductDto.name}.${
-        file.mimetype.split('/')[1]
-      }`;
+      file.originalname = `${updateProductDto.name}.${file.mimetype.split('/')[1]}`;
       const url = await this.s3HelperService.uploadFile(file, 'product');
 
       updateProductDto.image = url;
@@ -184,7 +174,7 @@ export class ProductService {
 
       return {
         statusCode: HttpStatus.OK,
-        message: MESSGES.PRODUCT_UPDATE_MESSAGE,
+        message: MESSAGES.PRODUCT_UPDATE_MESSAGE,
         data: product,
       };
     } catch (error) {
@@ -202,7 +192,7 @@ export class ProductService {
       }
       return {
         statusCode: HttpStatus.OK,
-        message: MESSGES.PRODUCT_DELETE_MESSAGE,
+        message: MESSAGES.PRODUCT_DELETE_MESSAGE,
       };
     } catch (error) {
       await this.errorHandlerService.HttpException(error);

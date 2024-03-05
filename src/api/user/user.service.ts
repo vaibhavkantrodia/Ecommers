@@ -4,7 +4,7 @@ import mongoose, { Model, mongo } from 'mongoose';
 import { ErrorHandlerService } from 'src/utils/error-handler.service';
 import { User } from './schema/user.schema';
 import { ResponseDto } from 'src/utils/response.dto';
-import { MESSGES } from 'src/constant/messages';
+import { MESSAGES } from 'src/constant/messages';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class UserService {
       const user = await this.userModel.find();
       return {
         statusCode: HttpStatus.OK,
-        message: MESSGES.USER_LIST_FETCH_SUCCESS_MESSAGE,
+        message: MESSAGES.USER_LIST_FETCH_SUCCESS_MESSAGE,
         data: user,
       }
     } catch (error) {
@@ -35,7 +35,7 @@ export class UserService {
       const user = await this.userModel.findById(userId);
       return {
         statusCode: HttpStatus.OK,
-        message: MESSGES.USER_FETCH_SUCCESS_MESSAGE,
+        message: MESSAGES.USER_FETCH_SUCCESS_MESSAGE,
         data: user,
       }
     } catch (error) {
@@ -48,11 +48,11 @@ export class UserService {
     try {
       const user = await this.userModel.findOneAndUpdate({ _id: userId }, updateUserDto, { new: true });
       if (!user) {
-        throw new HttpException(MESSGES.USER_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
+        throw new HttpException(MESSAGES.USER_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
       }
       return {
         statusCode: HttpStatus.OK,
-        message: MESSGES.USER_UPDATE_MESSAGE,
+        message: MESSAGES.USER_UPDATE_MESSAGE,
         data: user,
       }
     } catch (error) {
@@ -65,11 +65,11 @@ export class UserService {
     try {
       const user = await this.userModel.findOneAndDelete({ _id: userId });
       if (!user) {
-        throw new HttpException(MESSGES.USER_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
+        throw new HttpException(MESSAGES.USER_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
       }
       return {
         statusCode: HttpStatus.OK,
-        message: MESSGES.USER_DELETE_MESSAGE,
+        message: MESSAGES.USER_DELETE_MESSAGE,
       }
     } catch (error) {
       await this.errorHandlerService.HttpException(error);
