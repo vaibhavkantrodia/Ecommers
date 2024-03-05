@@ -34,6 +34,8 @@ export class VendorController {
    * @returns GetVendorListResponse
    */
   @Get('getVendorList')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(USER_ROLE.ADMIN)
   async getVendorList(@Param() getVendorListDto: GetVendorListDto): Promise<GetVendorListResponse> {
     return await this.vendorService.getVendorList(getVendorListDto);
   }
@@ -67,6 +69,8 @@ export class VendorController {
    * @returns ResponseDto
    */
   @Delete(':vendorId')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(USER_ROLE.VENDOR)
   async deleteVendor(@Param('vendorId') vendorId: string): Promise<ResponseDto> {
     return await this.vendorService.deleteVendor(vendorId);
   }

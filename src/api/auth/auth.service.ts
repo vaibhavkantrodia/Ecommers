@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { User } from '../user/schema/user.schema';
-import { MESSGES } from 'src/constant/messages';
+import { MESSAGES } from 'src/constant/messages';
 import { ResponseDto } from 'src/utils/response.dto';
 import { ErrorHandlerService } from 'src/utils/error-handler.service';
 import { LoginDto } from './dto/login-request.dto';
@@ -27,11 +27,11 @@ export class AuthService {
       const { name, email, phone, password } = createUserDto;
       const existsUser = await this.userModel.findOne({ email });
       if (existsUser) {
-        throw new HttpException(MESSGES.EMAIL_ALREADY_EXISTS_MESSAGE, HttpStatus.BAD_REQUEST);
+        throw new HttpException(MESSAGES.EMAIL_ALREADY_EXISTS_MESSAGE, HttpStatus.BAD_REQUEST);
       }
       const existsPhone = await this.userModel.findOne({ phone });
       if (existsPhone) {
-        throw new HttpException(MESSGES.PHONE_ALREADY_EXISTS_MESSAGE, HttpStatus.BAD_REQUEST);
+        throw new HttpException(MESSAGES.PHONE_ALREADY_EXISTS_MESSAGE, HttpStatus.BAD_REQUEST);
       }
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(password, salt);
@@ -46,7 +46,7 @@ export class AuthService {
       // await this.emailService.sendEmail(email, 'Verify email', emailVerificationLink);
       return {
         statusCode: HttpStatus.CREATED,
-        message: MESSGES.USER_CREATE_MESSAGE,
+        message: MESSAGES.USER_CREATE_MESSAGE,
         data: user,
       };
     } catch (error) {
@@ -59,17 +59,17 @@ export class AuthService {
     try {
       const user = await this.userModel.findOne({ email: loginDto.email });
       if (!user) {
-        throw new HttpException(MESSGES.USER_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
+        throw new HttpException(MESSAGES.USER_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
       }
       const isMatch = await bcrypt.compare(loginDto.password, user.password);
       if (!isMatch) {
-        throw new HttpException(MESSGES.INVALID_CREDENTIALS_MESSAGE, HttpStatus.BAD_REQUEST);
+        throw new HttpException(MESSAGES.INVALID_CREDENTIALS_MESSAGE, HttpStatus.BAD_REQUEST);
       }
       const accessToken = await this.jwtService.sign({ email: loginDto.email });
       return {
         accessToken,
         statusCode: HttpStatus.OK,
-        message: MESSGES.LOGIN_SUCCESSFULLY_MESSAGE,
+        message: MESSAGES.LOGIN_SUCCESSFULLY_MESSAGE,
         data: user,
       }
     } catch (error) {
@@ -82,7 +82,7 @@ export class AuthService {
     try {
       const user = await this.userModel.findOne({ email });
       if (!user) {
-        throw new HttpException(MESSGES.USER_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
+        throw new HttpException(MESSAGES.USER_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
       }
       const accessToken = await this.jwtService.sign({ email });
       const resetPasswordLink = `http://localhost:3000/reset-password/${accessToken}`;
@@ -90,7 +90,7 @@ export class AuthService {
       
       return {
         statusCode: HttpStatus.OK,
-        message: MESSGES.FORGOT_PASSWORD_SENT,
+        message: MESSAGES.FORGOT_PASSWORD_SENT,
         data: user,
       };
     }
@@ -107,11 +107,11 @@ export class AuthService {
       const hashedPassword = await bcrypt.hash(password, salt);
       const user = await this.userModel.findOneAndUpdate({ email }, { password: hashedPassword }, { new: true });
       if (!user) {
-        throw new HttpException(MESSGES.USER_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
+        throw new HttpException(MESSAGES.USER_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
       }
       return {
         statusCode: HttpStatus.OK,
-        message: MESSGES.PASSWORD_RESET_SUCCESSFULLY_MESSAGE,
+        message: MESSAGES.PASSWORD_RESET_SUCCESSFULLY_MESSAGE,
         data: user,
       };
     }

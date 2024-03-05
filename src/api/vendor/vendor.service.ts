@@ -7,7 +7,7 @@ import { Vendor } from './schema/vendor.schema';
 import { ErrorHandlerService } from 'src/utils/error-handler.service';
 import { CreateVendorResponse, GetVendorByIdResponse, GetVendorListResponse, UpdateVendorResponse } from './dto/vendor-response';
 import { GetVendorListDto } from './dto/get-vendor-list.dto';
-import { MESSGES } from 'src/constant/messages';
+import { MESSAGES } from 'src/constant/messages';
 import { ResponseDto } from 'src/utils/response.dto';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class VendorService {
       const { companyName, companyAddress, companyPhone, userId } = createVendorDto;
       const existsVendor = await this.vendorModel.findOne({ companyName, companyAddress, companyPhone, userId });
       if (existsVendor) {
-        throw new HttpException(MESSGES.VENDOR_ALREADY_EXISTS_MESSAGE, HttpStatus.BAD_REQUEST);
+        throw new HttpException(MESSAGES.VENDOR_ALREADY_EXISTS_MESSAGE, HttpStatus.BAD_REQUEST);
       }
 
       const newVendor = await this.vendorModel.create({
@@ -34,7 +34,7 @@ export class VendorService {
       });
       return {
         statusCode: HttpStatus.CREATED,
-        message: MESSGES.VENDOR_CREATE_MESSAGE,
+        message: MESSAGES.VENDOR_CREATE_MESSAGE,
         data: newVendor
       }
     } catch (error) {
@@ -73,7 +73,7 @@ export class VendorService {
 
       return {
         statusCode: HttpStatus.OK,
-        message:MESSGES.VENDOR_LIST_FETCH_SUCCESS_MESSAGE,
+        message:MESSAGES.VENDOR_LIST_FETCH_SUCCESS_MESSAGE,
         totalCount: getVendorList[0].count[0]?.totalCount,
         data: getVendorList,
       };
@@ -88,7 +88,7 @@ export class VendorService {
       const vendor = await this.vendorModel.findById(vendorId);
       return {
         statusCode: HttpStatus.OK,
-        message: MESSGES.VENDOR_FETCH_SUCCESS_MESSAGE,
+        message: MESSAGES.VENDOR_FETCH_SUCCESS_MESSAGE,
         data: vendor
       }
     } catch (error) {
@@ -101,11 +101,11 @@ export class VendorService {
     try {
       const updateVendor = await this.vendorModel.findOneAndUpdate({_id: vendorId}, updateVendorDto, { new: true });
       if (!updateVendor) {
-        throw new HttpException(MESSGES.VENDOR_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
+        throw new HttpException(MESSAGES.VENDOR_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
       }
       return {
         statusCode: HttpStatus.OK,
-        message: MESSGES.VENDOR_UPDATE_MESSAGE,
+        message: MESSAGES.VENDOR_UPDATE_MESSAGE,
         data: updateVendor
       }
     } catch (error) {
@@ -118,11 +118,11 @@ export class VendorService {
     try {
       const deleteVendor = await this.vendorModel.findOneAndDelete({_id: vendorId});
       if (!deleteVendor) {
-        throw new HttpException(MESSGES.VENDOR_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
+        throw new HttpException(MESSAGES.VENDOR_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
       }
       return {
         statusCode: HttpStatus.OK,
-        message:MESSGES.VENDOR_DELETE_MESSAGE,
+        message:MESSAGES.VENDOR_DELETE_MESSAGE,
       }
     } catch (error) {
       await this.errorHandlerService.HttpException(error);

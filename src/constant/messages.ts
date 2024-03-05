@@ -1,4 +1,4 @@
-export const MESSGES = {
+export const MESSAGES = {
   EMAIL_NOT_SEND: 'email not send',
   EMAIL_ALREADY_EXISTS_MESSAGE: 'email already exists',
   PHONE_ALREADY_EXISTS_MESSAGE: 'phone already exists',
@@ -42,4 +42,7 @@ export const MESSGES = {
   CART_DELETE_MESSAGE: 'Cart delete successfully',
   CART_UPDATE_MESSAGE: 'Cart update successfully',
   CART_FETCH_SUCCESS: 'Cart fetch successfully',
+  ORDER_CREATED_SUCCESS: 'Order created successfully',
+  ORDER_NOT_FOUND: 'Order not found',
+  ORDER_FETCH_SUCCESS: 'Order fetch successfully',
 }
